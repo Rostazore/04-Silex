@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title '' %}</title>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+    {# Contenu du Site. #}
+    {% block body %}
+        <h1>ACCUEIL DEPUIS TWIG</h1>
+    {% endblock %}
+
+    {# Block pour JavaScript. #}
+    {% block javascripts %}{% endblock %}
+
+</body>
+</html>

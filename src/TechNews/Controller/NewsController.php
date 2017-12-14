@@ -5,17 +5,18 @@ namespace TechNews\Controller;
 
 
 use Symfony\Component\HttpFoundation\Response;
-
+use Silex\Application;
 
 class NewsController
 {
     /**
      * Affichage de la page d'accueil.
+     * @param Application $app
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction ()
+    public function indexAction (Application $app)
     {
-        return "<h1>Accueil</h1>";
+        return $app['twig']->render('index.html.twig');
     }
 
     /**
