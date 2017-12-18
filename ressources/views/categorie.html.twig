@@ -1,0 +1,64 @@
+{% extends "layout.html.twig" %}
+
+{# Titre de la page. #}
+{% block title %}
+    Accueil | TechNews
+{% endblock title %}
+
+{# Contenu de la page. #}
+{% block contenu %}
+
+    {#{{ dump (articles) }}#}
+
+<div class="row">
+    <!--colleft-->
+    <div class="col-md-8 col-sm-12">
+        <div class="box-caption">
+            <span>{{ libelle }}</span>
+        </div>
+        <!--list-news-cate-->
+        <div class="list-news-cate">
+            {% for article in articles %}
+            <article class="news-cate-item">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                            <a href="{{ url('news_categorie', { categorie_libelle: article.LIBELLECATEGORIE | lower,
+                                article_slug: article.TITREARTICLE | slugify,
+                                article_id: article.IDARTICLE }) }}">
+                                <img alt="{{article.TITREARTICLE}}" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}">
+                            </a>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-12">
+                            <h3><a href="{{ url('news_categorie', { categorie_libelle: article.LIBELLECATEGORIE | lower,
+                                article_slug: article.TITREARTICLE | slugify,
+                                article_id: article.IDARTICLE }) }}">{{article.TITREARTICLE}}</a></h3>
+                            <div class="meta-post">
+                                <a href="#">
+                                    {{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}
+                                </a>
+                                <em></em>
+                                <span>
+                                        {{article.DATECREATIONARTICLE}}
+                                </span>
+                            </div>
+                            {{ article.CONTENUARTICLE | accroche }}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <!--<div class="paging">
+            <a href="#">Prev</a>
+            <a href="#" class="current">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">Next</a>
+        </div>-->
+
+    </div>
+    
+</div>
+{% endblock contenu %}

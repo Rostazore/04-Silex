@@ -16,7 +16,17 @@ class NewsController
      */
     public function indexAction (Application $app)
     {
-        return $app['twig']->render('index.html.twig');
+        # Récupération des Articles.
+        $articles = $app['idiorm.db']->for_table('view_articles')->find_result_set();
+
+        # Récupération des Articles en spotlight.
+        $spotlights = $app['idiorm.db']->for_table('view_articles')->where('SPOTLIGHTARTICLE', 1)->find_result_set();
+
+        # Affichiation de la vue.
+        return $app['twig']->render('index.html.twig', [
+            'articles'      => $articles,
+            'spotlights'    => $spotlights
+        ]);
     }
 
     /**
@@ -24,9 +34,18 @@ class NewsController
      * @param $libellé
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function catégorieAction ($libelle)
+    public function catégorieAction ($libelle, Application $app)
     {
-        return "<h1>Catégorie : $libelle</h1>";
+        # Récupération des Articles de la Catégorie.
+        $articles = $app['idiorm.db']->for_table('view_articles')
+            ->where('LIBELLECATEGORIE', ucfirst($libelle))
+            ->find_result_set();
+
+        # Affichiation de la vue.
+        return $app['twig']->render('categorie.html.twig', [
+            'articles'      => $articles,
+            'libelle'       => $libelle
+        ]);
     }
 
     /**
