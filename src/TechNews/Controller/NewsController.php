@@ -55,10 +55,32 @@ class NewsController
      * @param $article_id
      * return Symfony\Component\HttpFoundation\Response
      */
-    public function articleAction ($categorie_libelle, $article_slug, $article_id)
+    public function articleAction ($categorie_libelle, $article_slug, $article_id, Application $app)
     {
         # index.php/business/une-formation-innovante-a-denain_666.html
-        return "<h1>Article n°$article_id | $article_slug</h1>";
+        # Récupération de l'article.
+        $article = $app['idiorm.db']->for_table('view_articles')->find_one($article_id);
+
+        # Récupération des Articles de la catégorie de l'article (suggestion).
+        # Je récupère uniquement, les articles de la même catégorie que mon article.
+        $articles = $app['idiorm.db']->for_table('view_articles')->where('IDCATEGORIE', $article->IDCATEGORIE)
+
+        # Sauf mon article en cours.
+            ->where_not_equal('IDARTICLE', $article_id)
+
+        # 3 articles maximum.
+            ->limit(3)
+
+        # Par ordre décroissant.
+            ->order_by_desc('IDARTICLE')
+
+        # Je récupère les résultats.
+            ->find_result_set();
+        
+        return $app['twig']->render ('article.html.twig', [
+            "article"     => $article,
+            "suggestions"    => $articles
+        ]);
     }
 
     /**

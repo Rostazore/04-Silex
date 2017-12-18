@@ -1,0 +1,117 @@
+{% extends "layout.html.twig" %}
+
+{# Titre de la page. #}
+{% block title %}
+    Accueil | TechNews
+{% endblock title %}
+
+{# Contenu de la page. #}
+{% block contenu %}
+<div class="row">
+        <!--colleft-->
+        <div class="col-md-8 col-sm-12">
+            <!--post-detail-->
+            <article class="post-detail">
+                <h1>{{ article.TITREARTICLE }}</h1>
+                <div class="meta-post">
+                    <a href="#">
+                        {{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}
+                    </a>
+                    <em></em>
+                    <span>
+                        <time datetime="{{article.DATECREATIONARTICLE}}"></time>
+                    </span>
+                </div>
+
+                <div class="post-detail-img">
+                    <img alt="{{ article.TITREARTICLE }}" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}" />
+                </div>
+                
+                <p>{{ article.CONTENUARTICLE | raw }}</p>
+
+                <h5 class="text-right font-heading"><strong>{{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}</strong> </h5>
+
+            </article>
+            <!--social-detail-->
+            <div class="social-detail">
+                <span>   Share article</span>
+
+                <ul class="list-social-icon">
+                    <li>
+                        <a href="#" class="facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="google">
+                            <i class="fa fa-google"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="youtube">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="pinterest">
+                            <i class="fa fa-pinterest-p"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="rss">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <!--related post-->
+            <div class="detail-caption">
+                <span>  DANS LA MÊME CATÉGORIE</span>
+            </div>
+            <section class="spotlight-thumbs spotlight-thumbs-related">
+                <div class="row">
+                {% for article in suggestions %}
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="spotlight-item-thumb">
+                            <div class="spotlight-item-thumb-img">
+                                <a href="{{ url('news_article', { categorie_libelle: article.LIBELLECATEGORIE | lower,
+                                    article_slug: article.TITREARTICLE | slugify,
+                                    article_id: article.IDARTICLE }) }}">
+                                    <img alt="{{article.TITREARTICLE}}" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}">
+                                </a>
+                                <a href="{{ url('news_categorie', { categorie_libelle: article.LIBELLECATEGORIE | lower,
+                                    article_slug: article.TITREARTICLE | slugify,
+                                    article_id: article.IDARTICLE }) }}" class="cate-tag">{{article.LIBELLECATEGORIE}}</a>
+                            </div>
+                            <h3><a href="{{ url('news_article', { categorie_libelle: article.LIBELLECATEGORIE | lower,
+                                article_slug: article.TITREARTICLE | slugify,
+                                article_id: article.IDARTICLE }) }}">
+                                <img alt="{{article.TITREARTICLE}}">{{article.TITREARTICLE}}</a></h3>
+                            <div class="meta-post">
+                                <a href="#">
+                                    {{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}
+                                </a>
+                                <em></em>
+                                <span>
+                                    <time datetime="{{article.DATECREATIONARTICLE}}"></time>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </section>
+        </div>
+
+    {# Sidebar #}
+    {{ render(controller('TechNews\\Controller\\NewsController::sidebar')) }}
+
+    </div>
+{% endblock contenu %}
