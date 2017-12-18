@@ -41,7 +41,6 @@
                                     {{spotlight.DATECREATIONARTICLE}}
                                 </span>
                             </div>
-                            <!-- TODO -->
                             <p>{{ spotlight.CONTENUARTICLE | accroche }}</p>
                         </div>
                     </article>
@@ -81,5 +80,7 @@
                 </div>
             </section>
         </div>
-    {% include "inc/sidebar.html" %}
+        {# Sidebar #}
+    {{ render(controller('TechNews\\Controller\\NewsController::sidebar')) }}
+    {#{% include "inc/sidebar.html" %}#}
 {% endblock contenu %}

@@ -9,6 +9,7 @@ use Silex\Provider\DoctrineServiceProvider;
 use Idiorm\Silex\Provider\IdiormServiceProvider;
 use Silex\Provider\AssetServiceProvider;
 use TechNews\Extensions\TechNewsTwigExtension;
+use Silex\Provider\HttpFragmentServiceProvider;
 
 # 1. Importation de l'autoload.
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -78,5 +79,8 @@ $app['idiorm_catégories'] = function () use($app) {
     return $app['idiorm.db']->for_table('categorie')->find_result_set();
 };
 
-# 7. Execution de l'Application.
+# 7. Permet le rendu d'un controller dans la vue.
+$app->register(new HttpFragmentServiceProvider());
+
+# 8. Execution de l'Application.
 $app->run();

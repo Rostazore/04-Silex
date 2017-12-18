@@ -60,4 +60,43 @@ class NewsController
         # index.php/business/une-formation-innovante-a-denain_666.html
         return "<h1>Article n°$article_id | $article_slug</h1>";
     }
+
+    /**
+     * Génération du Menu dans la layout.
+     * @param Application $app
+     */
+    public function menu (Application $app)
+    {
+        # Récupération des catégories.
+        $catégories = $app['idiorm.db']->for_table('categorie')->find_result_set();
+
+        # Transmission à la vue.
+        return $app['twig']->render('menu.html.twig', [
+            'categories'    => $catégories
+        ]);
+    }
+
+    /**
+     * Génération de la Sidebar dans 
+     * @param Application $app
+     */
+    public function sidebar (Application $app)
+    {
+        # Récupération des articles.
+        $articles = $app['idiorm.db']->for_table('view_articles')
+            ->limit(5)
+            ->order_by_desc('DATECREATIONARTICLE')
+            ->find_result_set();
+
+        # Récupération des articles spéciaux.
+        $spéciaux = $app['idiorm.db']->for_table('view_articles')
+            ->where('SPECIALARTICLE', 1)
+            ->find_result_set();
+
+        # Transmission à la vue.
+        return $app['twig']->render('sidebar.html.twig', [
+            'articles'  => $articles,
+            'spéciaux'  => $spéciaux
+        ]);
+    }
 }

@@ -35,12 +35,15 @@
     </div>
 
     {# Menu du site. #}
-    {% include "inc/menu.html" %}
+    {# {% include "inc/menu.html" %} #}
+    {{ render(controller('TechNews\\Controller\\NewsController::menu')) }}
 
     {# Contenu du site. #}
     {% block contenu %}
         
     {% endblock contenu %}
+
+    
 
     {# Pied de page. #}
     {% include "inc/footer.html" %}

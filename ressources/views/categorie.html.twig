@@ -13,8 +13,14 @@
 <div class="row">
     <!--colleft-->
     <div class="col-md-8 col-sm-12">
+        {% if articles is not empty %}
         <div class="box-caption">
-            <span>{{ libelle }}</span>
+            <span>
+                {# 3 Façons de procéder : #}
+                {# {{ libelle }} #}
+                {# articles[0].LIBELLECATEGORIE #}
+                {{ global.request.get('libelle') }}
+            </span>
         </div>
         <!--list-news-cate-->
         <div class="list-news-cate">
@@ -47,7 +53,13 @@
                 </article>
             {% endfor %}
         </div>
+        {% else %}
 
+            <div class="alert alert-danger">
+                <strong>Aucune publication pour le moment.</strong>
+            </div>
+
+        {% endif %}
         <!--<div class="paging">
             <a href="#">Prev</a>
             <a href="#" class="current">1</a>
@@ -58,7 +70,11 @@
             <a href="#">Next</a>
         </div>-->
 
+
+        
+
     </div>
-    
+    {# Sidebar #}
+    {{ render(controller('TechNews\\Controller\\NewsController::sidebar')) }}
 </div>
 {% endblock contenu %}
