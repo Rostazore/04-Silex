@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{# Titre de la page. #}
+{% block title %}
+    Connexion
+{% endblock title %}
+
+{# Contenu de la page. #}
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-xs-6 col-xs-push-3">
+            <h2 class="text-center">Connexion d'un membre</h2>
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
+                    <p>{{ error }}</p>
+                </div>
+            {% endif %}
+
+            {% if global.request.get('inscription') == 'success' %}
+                <div class="alert alert-success">
+                    <p class="text-center"><i class="fa fa-thumbs-up fa-2x" aria-hidden="true"></i>L'inscription est effective, alors heureuse ?
+                        <br>La connexion est maintenant possible.
+                    </p>
+                </div>
+            {% endif %}
+            <form action="{{ url('connexion.html_login_check') }}" method="post" class="form-horizontal">
+                {# Courriel et mot de passe #}
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input type="text" name="_username" id="EMAILMAUTEUR" placeholder="Saisissez votre courriel" value="{{ last_username }}" class="form-control">
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="password" name="_password" id="MDPAUTEUR" placeholder="*******" class="form-control">
+                    </div>
+                </div>
+                {# Bouton submit. #}
+                <input type="submit" value="Se connexionner" class="btn btn-block btn-danger">
+            </form>
+        </div>
+    </div>
+
+{% endblock contenu %}

@@ -27,7 +27,7 @@
                     <img alt="{{ article.TITREARTICLE }}" src="{{ asset('images/product/'~article.FEATUREDIMAGEARTICLE) }}" />
                 </div>
                 
-                <p>{{ article.CONTENUARTICLE | raw }}</p>
+                {{ article.CONTENUARTICLE | raw }}
 
                 <h5 class="text-right font-heading"><strong>{{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}</strong> </h5>
 

@@ -5,6 +5,7 @@ namespace TechNews\Controller;
 
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 
 class NewsController
@@ -119,6 +120,59 @@ class NewsController
         return $app['twig']->render('sidebar.html.twig', [
             'articles'  => $articles,
             'spéciaux'  => $spéciaux
+        ]);
+    }
+
+    /**
+     * Affichage de la page d'inscription.
+     * @param Application $app
+     * return \Symfony
+     */
+    public function inscriptionAction (Application $app)
+    {
+        return $app['twig']->render('inscription.html.twig');
+    }
+
+    /**
+     * Traitement POST du formulaire d'inscription.
+     */
+    public function inscriptionPost (Application $app, Request $request)
+    {
+        # Vérification et sécurisation des données POST.
+        # ...
+
+        # Connexion à la BDD.
+        $auteur = $app['idiorm.db']->for_table('auteur')->create();
+
+        # Affectation de valeurs.
+        $auteur->PRENOMAUTEUR = $request->get('PRENOMAUTEUR');
+        $auteur->NOMAUTEUR = $request->get('NOMAUTEUR');
+        $auteur->EMAILAUTEUR = $request->get('EMAILAUTEUR');
+        $auteur->MDPAUTEUR = $app['security.default_encoder']->encodePassword($request->get('MDPAUTEUR'), '');
+        $auteur->ROLEAUTEUR = 'ROLE_MEMBRE';
+
+        # On persiste en BDD.
+        $auteur->save();
+
+        # On envoie un email de confirmation ou de bienvenue…
+        # On envoie une notification à l'administrateur:
+        # …
+
+        # On redirige l'utilisateur sur la page de connexion.
+        return $app->redirect('connexion.html?inscription=success');
+    }
+
+    /**
+     * Affichage de la page de connexion.
+     * @param Application   $app
+     * @param Request       $request
+     * return \Symfony
+     */
+    public function connexionAction (Application $app, Request $request)
+    {
+        return $app['twig']->render('connexion.html.twig', [
+            'error'         => $app['security.last_error']($request),
+            'last_username' => $app['session']->get('_security.last_username')
         ]);
     }
 }

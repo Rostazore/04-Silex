@@ -1,0 +1,39 @@
+{% extends "layout.html.twig" %}
+
+{# Titre de la page. #}
+{% block title %}
+    Inscription
+{% endblock title %}
+
+{# Contenu de la page. #}
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-xs-6 col-xs-push-3">
+            <h2 class="text-center">Inscription d'un membre</h2>
+            <form action="{{ url('news_inscription_post') }}" method="post" class="form-horizontal">
+                {# Prénom et Nom #}
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input type="text" name="PRENOMAUTEUR" id="PRENOMAUTEUR" placeholder="Saisissez votre prénom" class="form-control">
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="text" name="NOMAUTEUR" id="NOMAUTEUR" placeholder="Saisissez votre nom" class="form-control">
+                    </div>
+                </div>
+                {# Courriel et mot de passe #}
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input type="text" name="EMAILAUTEUR" id="EMAILAUTEUR" placeholder="Saisissez votre courriel" class="form-control">
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="password" name="MDPAUTEUR" id="MDPAUTEUR" placeholder="*******" class="form-control">
+                    </div>
+                </div>
+                {# Bouton submit. #}
+                <input type="submit" value="M'inscriptionner" class="btn btn-block btn-danger">
+            </form>
+        </div>
+    </div>
+
+{% endblock contenu %}

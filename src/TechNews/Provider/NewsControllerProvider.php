@@ -46,10 +46,28 @@ class NewsControllerProvider implements ControllerProviderInterface
             ->assert('idarticle', '\d+')
             ->bind('news_article');
 
+            # Page d'inscription.
+            $controllers
+            ->get('/inscription.html', 'TechNews\Controller\NewsController::inscriptionAction')
+            ->bind('news_inscription');
+            $controllers
+            ->post('/inscription.html', 'TechNews\Controller\NewsController::inscriptionPost')
+            ->bind('news_inscription_post');
+            # Page de connexion.
+            $controllers
+            ->get('/connexion.html', 'TechNews\Controller\NewsController::connexionAction')
+            ->bind('news_connexion');
+            $controllers
+            ->post('/connexion.html', 'TechNews\Controller\NewsController::connexionAction')
+            ->bind('news_connexion_post');
+            # Page de déconnexion.
+            $controllers
+            ->get('/deconnexion.html', 'TechNews\Controller\NewsController::deconnexionAction')
+            ->bind('news_deconnexion');
+
             # PHP Info.
             $controllers
-                ->get('/infos',
-                    [$this, 'infoAction']);
+                ->get('/infos', [$this, 'infoAction']);
 
         return $controllers;
     }
