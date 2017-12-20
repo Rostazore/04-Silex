@@ -6,6 +6,8 @@ namespace TechNews\Extensions;
 
 class TechNewsTwigExtension extends \Twig_Extension
 {
+    use \TechNews\Helper;
+
     /**
      * Création des Filters Accroche et "Slugify".
      * @return array|\Twig_Filter[]|void
@@ -31,7 +33,9 @@ class TechNewsTwigExtension extends \Twig_Extension
                 return $string;
             }), # Fin du filtre Twig Accroche
             new \Twig_Filter('slugify', function ($texte) {
-                // replace non letter or digits by -
+
+                    return $this->slugify($texte);
+                /*// replace non letter or digits by -
                 $text = preg_replace('~[^\pL\d]+~u', '-', $texte);
   
                 // transliterate
@@ -53,7 +57,7 @@ class TechNewsTwigExtension extends \Twig_Extension
                     return 'n-a';
                 }
   
-                return $text;
+                return $text;*/
             })
         ]; # Fin du Array.
     } # Fin de getFilters.

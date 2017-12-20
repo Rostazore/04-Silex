@@ -17,7 +17,9 @@ class AdminControllerProvider implements ControllerProviderInterface
         $controllers = $app['controllers_factory'];
 
         # Ajouter un article dans la BDD.
-        $controllers->get('article/ajouter', 'TechNews\Controller\AdminController::addarticleAction')
+        $controllers
+            ->match('article/ajouter', 'TechNews\Controller\AdminController::addarticleAction')
+            ->method('GET|POST')
             ->bind('admin_addarticle');
         return $controllers;
     }

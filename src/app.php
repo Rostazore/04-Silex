@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormRenderer;
 /*use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;*/
+use Ivory\CKEditorBundle\IvoryCKEditorBundle;
 
 
 
@@ -66,5 +67,10 @@ $app->extend('twig.runtimes', function ($array) {
     $array[FormRenderer::class] = 'twig.form.renderer';
     return $array;
 });
+
+$app['ckeditor'] = function () {
+    return new IvoryCKEditorBundle();
+};
+
 
 return $app;

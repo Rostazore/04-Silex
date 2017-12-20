@@ -6,6 +6,7 @@ namespace TechNews\Controller;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -17,10 +18,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 
-
 class AdminController
 {
-    public function addarticleAction (Application $app)
+    use \TechNews\Helper;
+
+
+    public function addarticleAction (Application $app, Request $request)
     {
         # Récupération de la liste des catégories.
         $catégories = function () use ($app)
@@ -94,6 +97,56 @@ class AdminController
              * récupérer le formulaire.
              */
             ->getForm();
+
+            # Traitement des données POST.
+            $form->handleRequest($request);
+
+            # Vérification des données du formulaire.
+            if ($form->isValid()):
+
+                # Récupération des données.
+                $article = $form->getData();
+
+                # Récupération de l'image.
+                $image = $article['FEATUREDIMAGEARTICLE'];
+                $chemin = PATH_PUBLIC . '/images/product';
+                $image->move($chemin, $this->slugify($article->TITREARTICLE) . '.jpg');
+
+                # Récupération de l'auteur.
+                $token = $app['security.token_storage']->getToken();
+                if (null != $token)
+                    $auteur = $token->getUser();
+                else
+                    return $app->redirect('/');
+
+                # Insertion en BDD.
+                $articleBdd = $app['idiorm.db']->for_table('article')->create();
+
+                $categorie = $app['idiorm.db']->for_table('categorie')->find_one($article['IDCATEGORIE']);
+
+                # On associe les colonnes de notre BDD avec les valeurs du formulaire.
+                # Colonne mysql                              # valeur du formulaire
+                $articleBdd->IDAUTEUR = $auteur->getIDAUTEUR();
+                $articleBdd->IDCATEGORIE = $article['IDCATEGORIE'];
+                $articleBdd->TITREARTICLE = $article['TITREARTICLE'];
+                $articleBdd->CONTENUARTICLE = $article['CONTENUARTICLE'];
+                $articleBdd->SPECIALARTICLE = $article['SPECIALARTICLE'];
+                $articleBdd->SPOTLIGHTARTICLE = $article['SPOTLIGHTARTICLE'];
+                $articleBdd->FEATUREDIMAGEARTICLE = $this->slugify($article['TITREARTICLE']) . '.jpg';
+
+                # Insertion en BDD.
+                $articleBdd->save();
+
+                # Redirection sur l'article qui vient d'être créé.
+                return $app->redirect($app['url_generator']->generate(
+                    'news_article', [
+                        'libellecategorie'  => strtolower($categorie->LIBELLECATEGORIE),
+                        'slugarticle'       => $this->slugify($article['TITREARTICLE']),
+                        'idarticle'         => $articleBdd->IDARTICLE,
+                    ]
+                ));
+
+            endif;
 
             # Affichage du formulaire dans la vue.
         return $app['twig']->render('admin/ajouterarticle.html.twig', ['form' => $form->createView()]);
