@@ -2,7 +2,7 @@
 
 {# Titre de la page. #}
 {% block title %}
-    Accueil | TechNews
+    Article | TechNews
 {% endblock title %}
 
 {# Contenu de la page. #}
@@ -93,7 +93,7 @@
                             <h3><a href="{{ url('news_article', { categorie_libelle: article.LIBELLECATEGORIE | lower,
                                 article_slug: article.TITREARTICLE | slugify,
                                 article_id: article.IDARTICLE }) }}">
-                                <img alt="{{article.TITREARTICLE}}">{{article.TITREARTICLE}}</a></h3>
+                                <img alt="{{article.TITREARTICLE}}"></a></h3>
                             <div class="meta-post">
                                 <a href="#">
                                     {{article.PRENOMAUTEUR}} {{article.NOMAUTEUR}}

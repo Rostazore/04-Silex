@@ -2,14 +2,21 @@
     "require": {
         "silex/silex": "~2.0",
         "twig/twig": "^2.4",
-        "symfony/twig-bridge": "^4.0",
+        "symfony/twig-bridge": "^3.4",
         "doctrine/dbal": "~2.2",
         "j4mie/idiorm": "^1.5",
-        "symfony/asset": "^4.0",
-        "symfony/security": "^4.0"
+        "symfony/asset": "^3.4",
+        "symfony/security": "^3.4",
+        "symfony/form": "^3.4",
+        "symfony/validator": "^3.4",
+        "symfony/config": "^3.4",
+        "symfony/security-csrf": "^3.4",
+        "silex/web-profiler": "^2.0",
+        "symfony/security-bundle": "^3.4"
     },
-    "autoload": {
-        "psr-4": {
+
+    "autoload" : {
+        "psr-4" : {
             "TechNews\\" : "src/TechNews/",
             "Idiorm\\" : "src/Idiorm"
         }

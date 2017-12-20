@@ -14,7 +14,7 @@
             {% if error %}
                 <div class="alert alert-danger">
                     <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i>
-                    <p>{{ error }}</p>
+                    <p>{{ error | replace({"Bad credentials." : "Identifiant et / ou mot de passe incorrects."}) }}</p>
                 </div>
             {% endif %}
 
@@ -29,7 +29,7 @@
                 {# Courriel et mot de passe #}
                 <div class="form-group">
                     <div class="col-xs-6">
-                        <input type="text" name="_username" id="EMAILMAUTEUR" placeholder="Saisissez votre courriel" value="{{ last_username }}" class="form-control">
+                        <input type="email" name="_username" id="EMAILMAUTEUR" placeholder="Saisissez votre courriel" value="{{ last_username }}" class="form-control">
                     </div>
                     <div class="col-xs-6">
                         <input type="password" name="_password" id="MDPAUTEUR" placeholder="*******" class="form-control">

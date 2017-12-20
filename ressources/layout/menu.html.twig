@@ -40,6 +40,13 @@
                         <a href="{{ url('news_categorie', {libelle : catégorie.LIBELLECATEGORIE | lower}) }}">{{catégorie.LIBELLECATEGORIE}}</a>
                     </li>
                 {% endfor %}
+                {# Permet de vérifier qu'un utilisateur est connecté, sans vérifier son rôle. #}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a href="{{ url('news_deconnexion') }}">Déconnexion</a></li>
+                {% else %}
+                    <li><a href="{{ url('news_connexion') }}">Connexion</a></li>
+                    <li><a href="{{ url('news_inscription') }}">Inscription</a></li>
+                {% endif %}
                 </ul>
                 <div class="search-icon">
                     <div class="search-icon-inner">
